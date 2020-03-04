@@ -5,7 +5,8 @@ const router = express.Router();
 router.get("/data", taskController.show);
 router.post('/insert', taskController.insert);
 router.delete('/delete/:id', taskController.delete);
-router.put('/modify', taskController.modify);
-
+router.get('/task/:id', taskController.showOne);
+router.put('/update', taskController.update);
+// router.get('/taskT/', taskController.showOneTitle);
 
 module.exports = router
