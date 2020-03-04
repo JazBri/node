@@ -1,3 +1,15 @@
+/** FUNCTIONS
+ * const dataSql();     //Funcion that saves the necessary data
+ * show();              //Function that shows the whole row
+ * insert();            //Function that inserts a task in the table
+ * delete();            //Function that removes one task from the table according to its ID
+ * showOne();           //Function that shows one task from the table according to its ID
+ * update();            //Function that modifies the state 'isDone' of a table task
+ * addNewTable();       //Funcion that adds a new 'taks' table
+ * deleteTable();       //Funtion that deletes task table
+  */
+
+//Imported
 const mysql = require("mysql");
 
 //Funcion that saves the necessary data
@@ -69,39 +81,47 @@ exports.showOne = (req, res) => {
 };
 
 //Function that modifies the state 'isDone' of a table task
-//----------------------------
 exports.update = (req, res) => {
     const connection = dataSql();
     connection.query(
-    "UPDATE tasks SET isDone = " + !isDonde + " WHERE id = " + req.params.id  + ";",
+    "UPDATE tasks SET isDone =  (!isDone)  WHERE id = " + req.params.id  + ";",
     function(err, rows, fields) {
+        console.log('Params', req.params)
         if (err) throw err;
         res.json(rows);
-    }
+        }
     );
     connection.end();
 };
 
-exports.showOne = (req, res) => {
+//Funcion that adds a new 'taks' table
+exports.addNewTable = (req, res) =>{
+    const connection = dataSql();
+    const createUser = 
+        `CREATE TABLE task(
+        id INT PRIMARY KEY AUTO_INCREMENT,
+        title VARCHAR(30),
+        description VARCHAR(190),
+        isDone boll,
+        PRIMARY KEY (id)
+    )`;
+    connection.query(createUser,
+        function(err, rows, fields){
+            if(err) throw err;
+            res.json(rows);
+        }
+    )
+} 
+
+//Funtion that deletes task table
+exports.deleteTable = (req, res) => {
     const connection = dataSql();
     connection.query(
-    "SELECT * FROM tasks WHERE id = " + req.params.id + ";",
-    function(err, rows, fields) {
-        if (err) throw err;
-        res.json(rows);
-    }
-    );
-};
-//Function that shows one task from the table according to its title
-// exports.showOneTitle = ( req, res) =>{
-//     const connection = dataSql();
-//     connection.query(
-//         "SELECT * FROM tasks WHERE = ",
-//         function (err, rows, fields){
-//             if (err) throw err;
-//             res.json(rows);
-//         }
-//     )
-// }
-
+        "DROP TABLE tasks",
+        function(err, rows, fields){
+            if(err) throw err;
+            res.json(rows);
+        }
+    )
+}
 
