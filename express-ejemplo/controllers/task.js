@@ -7,6 +7,7 @@
  * update();            //Function that modifies the state 'isDone' of a table task
  * addNewTable();       //Funcion that adds a new 'taks' table
  * deleteTable();       //Funtion that deletes task table
+ * updateTask();        //Function that edit the title and description according to its ID 
   */
 
 //Imported
@@ -55,6 +56,23 @@ exports.insert = (req, res) => {
     console.log(data.title);
     res.json(data);
 };
+
+//Function that edit the title and description according to its ID 
+exports.updateTask = (req, res) =>{
+    const connection = dataSql();
+    const data = req.body;
+    connection.connect();
+    connection.query(
+        // `UPDATE tasks SET title = ${data.title} description = ${data.description} WHERE id = ${req.params.id}` + `;`,
+        // "PDATE customers SET address = 'Canyon 123' WHERE address = 'Valley 345'";"
+        "UPDATE tasks SET title = '" + data.title + "', description = '" + data.description + "' WHERE id = " + req.params.id + ";",
+        function(err, rows, fields) {
+        if(err) throw err;
+        res.json(rows);
+    }
+    )
+    connection.end();
+}
 
 //Function that removes one task from the table according to its ID
 exports.delete = (req, res) => {
@@ -113,15 +131,17 @@ exports.addNewTable = (req, res) =>{
     )
 } 
 
+
+
 //Funtion that deletes task table
-exports.deleteTable = (req, res) => {
-    const connection = dataSql();
-    connection.query(
-        "DROP TABLE tasks",
-        function(err, rows, fields){
-            if(err) throw err;
-            res.json(rows);
-        }
-    )
-}
+// exports.deleteTable = (req, res) => {
+//     const connection = dataSql();
+//     connection.query(
+//         "DROP TABLE tasks",
+//         function(err, rows, fields){
+//             if(err) throw err;
+//             res.json(rows);
+//         }
+//     )
+// }
 

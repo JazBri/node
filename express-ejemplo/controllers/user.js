@@ -74,16 +74,16 @@ exports.addNewTable = (req, res) =>{
 } 
 
 //Funtion that deletes user table
-exports.delete = (req, res) => {
-    const connection = dataSql();
-    connection.query(
-        "DROP TABLE user",
-        function(err, rows, fields){
-            if(err) throw err;
-            res.json(rows);
-        }
-    )
-}
+// exports.delete = (req, res) => {
+//     const connection = dataSql();
+//     connection.query(
+//         "DROP TABLE user",
+//         function(err, rows, fields){
+//             if(err) throw err;
+//             res.json(rows);
+//         }
+//     )
+// }
 
 //Function that removes one user from the table according to its ID
 exports.deleteOne = (req, res) => {
