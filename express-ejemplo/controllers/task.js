@@ -26,33 +26,33 @@ const dataSql = () => {
 //Function that shows the whole row 
 exports.show = (req, res) => {
     const connection = dataSql();
-    connection.connect();
+    // connection.connect();
     connection.query("SELECT * FROM tasks", function(err, rows, fields) {
     if (err) throw err;
     res.json({task: rows});
     });
-    connection.end();
+    // connection.end();
 };
 
 //Function that inserts a task in the table
 exports.insert = (req, res) => {
     const connection = dataSql();
     const data = req.body;
-    connection.connect();
+    // connection.connect();
     connection.query(
     "INSERT INTO tasks (title, description, isDone) VALUES ('" +
         data.title +
         "','" +
         data.description +
-        "','" +
+        "'," +
         data.isDone +
-        "')",
+        ")",
         function(err, result) {
         if (err) throw err;
         res.json("Insertó el registro");
     }
     );
-    connection.end();
+    // connection.end();
     console.log(data.title);
     res.json(data);
 };
@@ -61,7 +61,7 @@ exports.insert = (req, res) => {
 exports.updateTask = (req, res) =>{
     const connection = dataSql();
     const data = req.body;
-    connection.connect();
+    // connection.connect();
     connection.query(
         // `UPDATE tasks SET title = ${data.title} description = ${data.description} WHERE id = ${req.params.id}` + `;`,
         // "PDATE customers SET address = 'Canyon 123' WHERE address = 'Valley 345'";"
@@ -71,19 +71,19 @@ exports.updateTask = (req, res) =>{
         res.json(rows);
     }
     )
-    connection.end();
+    // connection.end();
 }
 
 //Function that removes one task from the table according to its ID
 exports.delete = (req, res) => {
     const connection = dataSql();
     const sql = "DELETE FROM tasks WHERE id=" + req.params.id + ";";
-    connection.connect();
+    // connection.connect();
     connection.query(sql, function(err, rows, fields) {
     if (err) throw err;
     res.json(rows);
     });
-    connection.end();
+    // connection.end();
 };
 
 //Function that shows one task from the table according to its ID
@@ -100,6 +100,7 @@ exports.showOne = (req, res) => {
 
 //Function that modifies the state 'isDone' of a table task
 exports.update = (req, res) => {
+    console.log("update", req.params.id)
     const connection = dataSql();
     connection.query(
     "UPDATE tasks SET isDone =  (!isDone)  WHERE id = " + req.params.id  + ";",
@@ -109,7 +110,7 @@ exports.update = (req, res) => {
         res.json(rows);
         }
     );
-    connection.end();
+    // connection.end();
 };
 
 //Funcion that adds a new 'taks' table

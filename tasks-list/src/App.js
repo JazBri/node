@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import Form from './components/Form';
-import { getTasks, insertTask, isDoneTask, deleteTask, modifyTask, deleteOneTask } from './services/todos'
+import { getTasks, insertTask, isDoneTask, modifyTask, deleteTask } from './services/todos'
 import ListsContainer from './components/ListContainer';
 import CustomModal from './components/common/CustomModal'
 import useModalWithData from './hooks/useModalWithData'
-// import {getTasks} from '../src/components/Api'
 
 const App = () => {
   const handleClick = param => {
@@ -16,40 +15,42 @@ const App = () => {
 
   //Tasks, form and modal states
   const initialFormState = {
-    name: "",
-    description: "",
-    
+    title: " ",
+    description: " ",
   }
+
   const [tasks, setTasks] = useState([])
   const [form, setForm] = useState(initialFormState)
   const [setIsModalOpened, isModalOpened, modalData, setModalData] = useModalWithData()
   
   const handleChange = e => {
     const value = e.target.value
-    const name = e.target.name
-
-    setForm({ ...form, [name]: value })
+    const title = e.target.title
+    setForm({ ...form, [title]: value })
   }
 
   const handleSubmit = e => {
     e.preventDefault()
-    const { name, description } = form
-    if (form.id) {
+    const { title, description } = form
+    /* if (form.id) {
       const newTasks = tasks.map(task => task.id === form.id ? form : task)
       setTasks(newTasks)
+      modifyTask(form.title, form.description, form.id)
       setIsModalOpened(false)
+      // getTasks()
     }
-    else if (name && description) {
+    else if (title && description) { */
       const task = {
-        name,
+        title,
         description
       }
-      task.id = tasks[tasks.length - 1].id + 1
-      setTasks([...tasks, task])
+      // getTasks()
+      insertTask(title, description).then( () => getTasks().then(data => setTasks(data)) )
+      // setTasks([...tasks, task])
       setIsModalOpened(false)
-    }
+      setForm(initialFormState)
+    // }
   }
-
 
   //Toma las tareas del localhost  y las setea
   useEffect(() => {
@@ -59,6 +60,7 @@ const App = () => {
 
 //Cambia el estado de las tareas del localhost
   const changeTaskStatus = async (task) => {
+    console.log(tasks)
     await isDoneTask(task.id).then(() =>
     getTasks().then(tasks => setTasks(tasks))
     )
@@ -66,9 +68,6 @@ const App = () => {
 
 //Inserta una nueva tarea
   const handleClickAddTask = async (task) => {
-    await insertTask(task.title, task.description).then(() => 
-    getTasks().then(tasks => setTasks(tasks))
-  )
     setForm(initialFormState)
     setModalData(initialFormState)
     setIsModalOpened(true)
@@ -76,19 +75,17 @@ const App = () => {
 
 //Edita una tarea
   const editTask = async(task) => {
-    modifyTask(task.title, task.description, task.id).then(() => 
-    getTasks().then(tasks => setTasks(tasks))
-  )
     setForm(task)
     setModalData(form)
     setIsModalOpened(true)
   }
 
 //Elimina una tarea
-const deleteOneTask = async(task) =>{
-  deleteOneTask(task.id).then(tasks =>{
-    setTasks(tasks)
-  })  
+  const onDeleteOneTask = async(task) =>{
+    console.log('id', task.id)
+
+    await deleteTask(task.id).then(() => 
+    getTasks().then(tasks => setTasks(tasks)))
 }
 
   return (
@@ -124,7 +121,7 @@ const deleteOneTask = async(task) =>{
           tasks={tasks}
           editTask={editTask}
           changeTaskStatus={changeTaskStatus}
-          deleteOneTask = {deleteOneTask}
+          onDeleteOneTask = {onDeleteOneTask}
         />
 
       </div>

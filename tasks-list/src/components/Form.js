@@ -8,13 +8,16 @@ const Form = ({ onSubmit, onChange, form }) => {
       </div>
       <div className="card-body">
         <form onSubmit={ onSubmit } >
+          
           <div className="form-group">
             <label htmlFor="exampleInputTitle">Título</label>
-            <input type="text" className="form-control" name="name" value={ form.name } onChange={ onChange }></input>
+            <input type="text" className="form-control " title="title" value={ form.title } onChange={ onChange } ></input>
           </div>
+
+          
           <div className="form-group">
             <label htmlFor="description">Descripción</label>
-            <input type="text" className="form-control" name="description" value={ form.description } onChange={ onChange }></input>
+            <input type="text" className="form-control" title="description" value={ form.description } onChange={ onChange }></input>
           </div>
           <button type="submit" className="btn btn-primary">Guardar</button>
         </form>

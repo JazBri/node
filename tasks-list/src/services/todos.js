@@ -15,6 +15,8 @@ export const getTasks = async () => {
 
 //Add a new task to the database
 export const insertTask = async (title, description) => {
+    console.log("INSERT");
+
     const response = await fetch('http://localhost:3005/tasks/', {
         method: "POST",
         headers: {
@@ -24,7 +26,7 @@ export const insertTask = async (title, description) => {
         body: JSON.stringify({
         title: title,
         description: description,
-        isDone: 1
+        isDone: 0
         })
     });
     const json = await response.json();
@@ -32,7 +34,7 @@ export const insertTask = async (title, description) => {
 }
 
 export const modifyTask = async (title, description, id) => {
-    const response = await fetch(`http://localhost:3005/tasks/${id}`, {
+    const response = await fetch(`http://localhost:3005/tasks/task/${id}`, {
         method: "PUT",
         headers: {
         Accept: "application/json",
@@ -55,9 +57,9 @@ export const deleteTask = async (id) => {
     Accept: "application/json",
     "Content-Type": "application/json"
     },
-    body: JSON.stringify({
-    id : id
-    })
+    // body: JSON.stringify({
+    // id : id
+    // })
 });
 const json = await response.json();
 return json.task;

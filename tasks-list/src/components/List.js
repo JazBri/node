@@ -2,7 +2,7 @@ import React from "react";
 import Task from "./Task";
 
 
-const List = ({ onChangeTaskStatus, onEditTask, tasksList, title, deleteOneTask }) => (
+const List = ({ onChangeTaskStatus, onEditTask, tasksList, title, onDeleteOneTask }) => (
   <>
     <h3>{title}</h3>
     {tasksList.map((task, key) =>
@@ -10,7 +10,7 @@ const List = ({ onChangeTaskStatus, onEditTask, tasksList, title, deleteOneTask 
         task={task}
         onChangeState={() => onChangeTaskStatus(task)}
         onEditTask={() => onEditTask(task)}
-        deleteOneTask={() => deleteOneTask(task)}
+        onDeleteOneTask={() => onDeleteOneTask(task)}
         key={key}
         
       />)
