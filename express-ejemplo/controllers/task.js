@@ -21,7 +21,7 @@ const dataSql = () => {
         password: process.env.DB_PASS,
         database: process.env.DB_NAME
     });
-};
+}; 
 
 //Function that shows the whole row 
 exports.show = (req, res) => {
@@ -34,45 +34,33 @@ exports.show = (req, res) => {
     // connection.end();
 };
 
-//Function that inserts a task in the table
+
 exports.insert = (req, res) => {
     const connection = dataSql();
-    const data = req.body;
-    // connection.connect();
-    connection.query(
-    "INSERT INTO tasks (title, description, isDone) VALUES ('" +
-        data.title +
-        "','" +
-        data.description +
-        "'," +
-        data.isDone +
-        ")",
-        function(err, result) {
-        if (err) throw err;
-        res.json("Insertó el registro");
-    }
-    );
-    // connection.end();
-    console.log(data.title);
-    res.json(data);
+    const { title, description, isDone} = req.body;
+    let sql = `INSERT INTO tasks (title, description, isDone) VALUES (?, ?, ? )`;
+    connection.query(sql, [ title, description, isDone] ,function(err, results){
+        if(err) throw err;
+        res.json(results);
+    })
 };
 
+//
 //Function that edit the title and description according to its ID 
 exports.updateTask = (req, res) =>{
     const connection = dataSql();
-    const data = req.body;
-    // connection.connect();
+    const { title, description} = req.body;
+    let sql = `UPDATE tasks SET title = (?), description = (?) WHERE id = ${req.params.id}`;
     connection.query(
-        // `UPDATE tasks SET title = ${data.title} description = ${data.description} WHERE id = ${req.params.id}` + `;`,
-        // "PDATE customers SET address = 'Canyon 123' WHERE address = 'Valley 345'";"
-        "UPDATE tasks SET title = '" + data.title + "', description = '" + data.description + "' WHERE id = " + req.params.id + ";",
-        function(err, rows, fields) {
+        sql, [ title, description],
+        function(err, results) {
         if(err) throw err;
-        res.json(rows);
+        res.json(results);
     }
     )
     // connection.end();
 }
+
 
 //Function that removes one task from the table according to its ID
 exports.delete = (req, res) => {
@@ -90,7 +78,7 @@ exports.delete = (req, res) => {
 exports.showOne = (req, res) => {
     const connection = dataSql();
     connection.query(
-    "SELECT * FROM tasks WHERE id = " + req.params.id + ";",
+        `SELECT * FROM tasks WHERE id = ${req.body.id}` ,
     function(err, rows, fields) {
         if (err) throw err;
         res.json(rows);

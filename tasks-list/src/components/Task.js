@@ -1,6 +1,12 @@
-import React from "react"
+import React from "react";
 
-const Task = ( { task, onChangeState, onEditTask, onDeleteOneTask } ) => {
+const Task = ({
+  task,
+  onChangeState,
+  onEditTask,
+  onDeleteOneTask,
+  addMyTask
+}) => {
   return (
     <>
       <div className="card mb-3">
@@ -9,11 +15,12 @@ const Task = ( { task, onChangeState, onEditTask, onDeleteOneTask } ) => {
           <p className="card-text">{task.description}</p>
           <div className="row">
             <div className="col-12 col-sm-6">
+              <p>{task.id}</p>
               <button
                 className="btn btn-outline-success"
                 onClick={() => onChangeState()}
               >
-                {task.done ? "Reiniciar" : "Finalizar"}
+                {task.isDone ? "Reiniciar" : "Finalizar"}
               </button>
             </div>
             <div className="col-12 col-sm-6">
@@ -33,11 +40,19 @@ const Task = ( { task, onChangeState, onEditTask, onDeleteOneTask } ) => {
                 Eliminar
               </button>
             </div>
+            <div className="col-12 col-sm-6">
+              <button
+                className="btn btn-outline-warning float-right"
+                onClick={() => addMyTask()}
+              >
+                Agregar
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </>
   );
-}
+};
 
-export default Task
+export default Task;

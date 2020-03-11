@@ -10,6 +10,6 @@ router.put('/:id', taskController.update);
 router.put('/task/:id', taskController.updateTask);
 // router.delete('/table', taskController.deleteTable);
 
-
+//SELECT * FROM tasks;
 
 module.exports = router
