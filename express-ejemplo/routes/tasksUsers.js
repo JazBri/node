@@ -5,8 +5,7 @@ const router = express.Router();
 router.get("/", taskUserController.show);
 router.get("/:id", taskUserController.showOne);
 router.post("/", taskUserController.insert);
-// router.delete('/table', taskController.deleteTable);
-
-//SELECT * FROM tasks;
+router.delete("/:id", taskUserController.deleteOnetTaskUser);
+router.get("/inner", taskUserController.innerTasksUser);
 
 module.exports = router;

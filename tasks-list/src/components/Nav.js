@@ -17,13 +17,11 @@ const Nav = ({ logged, user }) => {
       <li className="nav-item">
         <a className="nav-link active" href="#">
           {" "}
-          {user.id}
+          {user.name}
         </a>
       </li>
       <li className="nav-item">
-        <a className="nav-link" href="#">
-          Tasks
-        </a>
+        <a className="nav-link" href="#"></a>
       </li>
       <li className="nav-item">
         <a className="nav-link" href="#" onClick={onClick}>

@@ -9,7 +9,9 @@ import {
   deleteTask,
   getUsers,
   insertUser,
-  insertTaskUser
+  insertTaskUser,
+  getTasksUsers,
+  deleteTaskUser
 } from "./services/todos";
 import ListsContainer from "./components/ListContainer";
 import CustomModal from "./components/common/CustomModal";
@@ -44,8 +46,10 @@ const App = () => {
   // const initialUserState = {
   //   user: " "
   // };
-  const [logged, setLogged] = useState("true");
+  const [logged, setLogged] = useState("false");
   const [userDB, setUser] = useState({});
+
+  const [tasksUsers, setTasksUsers] = useState([]);
 
   const [logIn, setLoggin] = useState(initialLogedState);
   const [users, setUsers] = useState([]);
@@ -91,6 +95,10 @@ const App = () => {
     getUsers().then(users => setUsers(users));
   }, []);
 
+  useEffect(() => {
+    getTasksUsers().then(data => setTasksUsers(data));
+  }, []);
+
   const handleSubmitLogin = e => {
     e.preventDefault();
     const { mail, pass } = logIn;
@@ -102,22 +110,19 @@ const App = () => {
       };
       const a = users.map(b => {
         if (user.mail === b.name && user.pass === b.pass) {
-          console.log("yep");
           setLogged("true");
           setUser(b);
-
-          console.log("set", userDB);
-        } else {
-          console.log("nop");
         }
       });
+      console.log("user response:", users);
+      console.log("set", userDB);
 
       if (logged === "false") {
-        alert("Los datos son inválidos");
         setLoggin(initialLogedState);
+        alert("Los datos ingresados son inválidos");
       }
-      console.log(user);
-      console.log("user response:", users);
+    } else {
+      alert("Por favor ingrese los datos");
     }
   };
 
@@ -185,8 +190,30 @@ const App = () => {
   };
 
   const addMyTask = async task => {
-    insertTaskUser(task.id, userDB.id);
-    console.log(task.id, userDB.id);
+    getTasksUsers().then(data => setTasksUsers(data));
+    // const a = tasksUsers.map(b => {
+    //   console.log(b.idTask);
+    //   console.log(task.id);
+    //   if (b.idTask === task.id) {
+    //     alert("la tarea ya esta");
+    //   } else {
+
+    await insertTaskUser(task.id, userDB.id)
+      .then(() => getTasksUsers().then(data => setTasksUsers(data)))
+      .catch(err => alert("Imposible realizar la conección"));
+    alert("Tarea Vinculada");
+  };
+
+  const deleteMyTask = async task => {
+    getTasksUsers().then(data => setTasksUsers(data));
+    console.log("data", users);
+    const map = tasksUsers.map(b => {
+      if (task.id === b.idTask) {
+        getTasksUsers().then(deleteTaskUser(task.id));
+        alert("Tarea desvinculada");
+        console.log("tasdad", tasksUsers);
+      }
+    });
   };
 
   if (logged === "true") {
@@ -208,7 +235,7 @@ const App = () => {
             </div>
             <div className="col">
               <button
-                className="btn btn-primar   y float-right"
+                className="btn btn-primary float-right"
                 onClick={handleClickAddTask}
               >
                 Nueva
@@ -231,6 +258,7 @@ const App = () => {
               changeTaskStatus={changeTaskStatus}
               onDeleteOneTask={onDeleteOneTask}
               addMyTask={addMyTask}
+              deleteMyTask={deleteMyTask}
             />
           </div>
         </div>

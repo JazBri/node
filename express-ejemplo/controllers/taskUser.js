@@ -42,6 +42,27 @@ exports.insert = (req, res) => {
     res.json(results);
   });
 };
+
+exports.deleteOnetTaskUser = (req, res) => {
+  const connection = dataSql();
+  const sql = "DELETE FROM tasksUsers WHERE idTask=" + req.params.id + ";";
+  connection.query(sql, function(err, rows, fields) {
+    if (err) throw err;
+    res.json(rows);
+  });
+};
+
+exports.innerTasksUser = (req, res) => {
+  const connection = dataSql();
+
+  const { idTask, idUser } = req.body;
+  let sql = `SELECT * FROM users INNER JOIN tasks ON users.? = tasks.?`;
+  connection.query(sql, [idTask, idUser], function(err, results) {
+    if (err) throw err;
+    res.json(results);
+  });
+};
+
 /*
 exports.insert = (req, res) => {
   const connection = dataSql();

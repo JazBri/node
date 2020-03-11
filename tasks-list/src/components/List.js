@@ -7,7 +7,8 @@ const List = ({
   tasksList,
   title,
   onDeleteOneTask,
-  addMyTask
+  addMyTask,
+  deleteMyTask
 }) => (
   <>
     <h3>{title}</h3>
@@ -18,6 +19,7 @@ const List = ({
         onEditTask={() => onEditTask(task)}
         onDeleteOneTask={() => onDeleteOneTask(task)}
         addMyTask={() => addMyTask(task)}
+        deleteMyTask={() => deleteMyTask(task)}
         key={key}
       />
     ))}

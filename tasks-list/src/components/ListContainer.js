@@ -6,7 +6,8 @@ const ListsContainer = ({
   editTask,
   changeTaskStatus,
   onDeleteOneTask,
-  addMyTask
+  addMyTask,
+  deleteMyTask
 }) => {
   const pendingTasks = () => {
     return tasks.filter(task => !task.isDone);
@@ -27,6 +28,7 @@ const ListsContainer = ({
             onEditTask={editTask}
             onDeleteOneTask={onDeleteOneTask}
             addMyTask={addMyTask}
+            deleteMyTask={deleteMyTask}
           />
         ) : (
           <h3> Muy bien!! No tienes tareas pendientes </h3>
@@ -41,6 +43,7 @@ const ListsContainer = ({
             onEditTask={editTask}
             onDeleteOneTask={onDeleteOneTask}
             addMyTask={addMyTask}
+            deleteMyTask={deleteMyTask}
           />
         </div>
       ) : null}
@@ -55,6 +58,7 @@ const ListsContainer = ({
               onEditTask={editTask}
               onDeleteOneTask={onDeleteOneTask}
               addMyTask={addMyTask}
+              deleteMyTask={deleteMyTask}
             />
           ) : (
             <h3> No tienes tareas creadas </h3>

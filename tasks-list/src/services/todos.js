@@ -62,6 +62,12 @@ export const deleteUser = async id => {
   return json.task;
 };
 
+export const getTasksUsers = async () => {
+  const response = await fetch("http://localhost:3005/tasksUsers/");
+  const json = await response.json();
+  return json.taskUser;
+};
+
 export const insertTaskUser = async (idTask, idUser) => {
   console.log("INSERT");
 
@@ -75,6 +81,38 @@ export const insertTaskUser = async (idTask, idUser) => {
       idTask: idTask,
       idUser: idUser
     })
+  });
+  const json = await response.json();
+  return json.taskUser;
+};
+
+export const innerTasksUser = async (idTask, idUser) => {
+  console.log("GET");
+  const response = await fetch("http://localhost:3005/tasksUsers/inner", {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      idTask: idTask,
+      idUser: idUser
+    })
+  });
+  const json = await response.json();
+  return json.taskUser;
+};
+
+export const deleteTaskUser = async id => {
+  const response = await fetch(`http://localhost:3005/tasksUsers/${[id]}`, {
+    method: "DELETE",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json"
+    }
+    // body: JSON.stringify({
+    // id : id
+    // })
   });
   const json = await response.json();
   return json.taskUser;
