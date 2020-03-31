@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 
 const SignIn = ({ onChange, onSubmit, signIn }) => {
   return (
-    <div class="container">
+    <div className="container">
       <br></br>
       <br></br>
 

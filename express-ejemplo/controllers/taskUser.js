@@ -56,7 +56,7 @@ exports.innerTasksUser = (req, res) => {
   const connection = dataSql();
 
   const { idTask, idUser } = req.body;
-  let sql = `SELECT * FROM users INNER JOIN tasks ON users.? = tasks.?`;
+  let sql = `SELECT * FROM users INNER JOIN tasks ON users = tasks`;
   connection.query(sql, [idTask, idUser], function(err, results) {
     if (err) throw err;
     res.json(results);
